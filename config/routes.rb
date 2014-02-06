@@ -3,9 +3,10 @@ Myflix::Application.routes.draw do
 
   root to: 'pages#front'
   get '/home', to: 'videos#index'
-  get '/register', to: 'sessions#new'
-  post '/register', to: 'sessions#create'
-
+  get '/register', to: 'users#new'
+  get '/sign_in', to: 'sessions#new'
+  post '/sign_in', to: 'sessions#create'
+  get '/sign_out', to: 'sessions#destroy'
 
   resources :users
 

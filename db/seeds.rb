@@ -6,6 +6,8 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+# TODO there is a issue with seeding so that it is creating the categories twice
+
 # Create Categories
 comedies = Category.create(name: "TV Commedies")
 dramas = Category.create(name: "TV Dramas")
@@ -20,5 +22,8 @@ Video.create(title: "Family Guy", description: "Family with a smart baby", small
 Video.create(title: "South Park", description: "Kids from Colorado", small_cover_url: "south_park.jpg", category: comedies)
 Video.create(title: "Futurama", description: "A boy and his robot", small_cover_url: "futurama.jpg", category: comedies)
 Video.create(title: "Futurama", description: "A boy and his robot", small_cover_url: "futurama.jpg", category: dramas)
+
+User.create(email: "tch399@gmail.com", password: "123", full_name: "Thomas Habif")
+User.create(email: "123@gmail.com", password: "123", full_name: "Jim Allen")
 
 
