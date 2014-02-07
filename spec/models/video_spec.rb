@@ -6,18 +6,7 @@ describe Video do
   it { should validate_presence_of(:description) }
 end
 
-# //self.search_by_title(search_term)
-# Video.search_by_title("family") //pass a string, only learing to title
-# can do partial match
-#   if none videos found return empty arrya
-#     if one or multiple return an array with the videos
-
-#       test not find single video
-#       find one
-#       find multiple
-
-#       how do search in active record, need LIKE
-describe "search_by_title" do
+describe ".search_by_title" do
   it "returns empty array if there is no match" do
     futurama = Video.create(title: "Futurama", description: "Space Travel!")
     back_to_future = Video.create(title: "Back to Future", description: "Time travel!")
@@ -27,7 +16,7 @@ describe "search_by_title" do
   it "returns an array with one video for an exact match" do
     video = Video.create(title: "Big", description: "Tom Hanks becomes a child.")
     # Video.search_by_title("Big").should eq([video])
-    expect(Video.search_by_title("Big")).to eq([video])
+    expect(Video.search_by_title("Big")).to match_array([video])
   end
 
   it "returns an array with one video for a partial match" do
@@ -46,5 +35,44 @@ describe "search_by_title" do
     bill = Video.create(title: "Bill", description: "The Bill Clinton story.")
     expect(Video.search_by_title("")).to eq([])
   end
+end #end of search_by_title test
 
+  # sample results { comedies => [video1, video2], dramas => [video3],   westerns => [video4] }
+describe ".search_by_title_categorized" do
+  # it "returns an empty hash if there is no match" do
+  #   comedies = Category.create(name: "Comedies")
+  #   futurama = Video.create(title: "Futurama", description: "Space Travel!", category: comedies)
+  #   back_to_future = Video.create(title: "Back to Future", description: "Time travel!", category: comedies)
+  #   expect(Video.search_by_title_categorized("Big")).to eq({})
+  # end
+
+  it "categorizes the search results" do
+    comedies = Category.create(name: "Comedies")
+    dramas = Category.create(name: "Dramas")
+    westerns = Category.create(name: "Western")
+    thriller = Category.create(name: "Thriller")
+
+    friends = comedies.videos.create(title: "Friends", description: "A group of friends")
+    big = Video.create(title: "Big Friends", description: "Tom Hanks becomes a child", category: comedies)
+    back_to_future = Video.create(title: "Back to Future Friends", description: "Time travel!", category: comedies)
+    nypd_blue = Video.create(title: "NYPD Blue Friends", description: "Police drama", category: dramas)
+    friends_saloon = westerns.videos.create(title: "Friends Saloon", description: "A nice western")
+    cowboy = westerns.videos.create(title: "Cowboy Friends", description: "Nice")
+    jackson = thriller.videos.create(title: "M. Jackson", description: "Music video")
+
+    results = Video.search_by_title_categorized("Friends")
+
+    expect(results).to eq({
+      comedies => Set.new([friends, big, back_to_future]),
+      dramas => Set.new([nypd_blue]),
+      westerns => Set.new([friends_saloon, cowboy])
+      })
+  end
+
+  # it "returns a hash with one category and two videos when are a match on two videos of the same category" do
+  #   comedies = Category.create(name: "Comedies")
+  #   big = Video.create(title: "Big", description: "Tom Hanks becomes a child", category: comedies)
+  #   back_to_future = Video.create(title: "Back to Future", description: "Time travel!", category: comedies)
+  #   expect(Video.search_by_title_categorized("B")).to eq({comedies: [big, back_to_future]})
+  # end
 end

@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
 
   def require_user
     unless logged_in?
-      flash[:error] = "You are not logged in."
+      flash[:danger] = "You are not logged in."
       redirect_to sign_in_path
     end
   end
