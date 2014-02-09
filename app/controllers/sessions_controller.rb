@@ -4,9 +4,7 @@ class SessionsController < ApplicationController
   end
 
   def create
-    # binding.pry
     user = User.where(email: params[:email]).first
-    # Watch out for nil condition for @user here
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
       redirect_to home_path, success: "You are signed in."

@@ -15,7 +15,6 @@ describe ".search_by_title" do
 
   it "returns an array with one video for an exact match" do
     video = Video.create(title: "Big", description: "Tom Hanks becomes a child.")
-    # Video.search_by_title("Big").should eq([video])
     expect(Video.search_by_title("Big")).to match_array([video])
   end
 
@@ -37,15 +36,7 @@ describe ".search_by_title" do
   end
 end #end of search_by_title test
 
-  # sample results { comedies => [video1, video2], dramas => [video3],   westerns => [video4] }
 describe ".search_by_title_categorized" do
-  # it "returns an empty hash if there is no match" do
-  #   comedies = Category.create(name: "Comedies")
-  #   futurama = Video.create(title: "Futurama", description: "Space Travel!", category: comedies)
-  #   back_to_future = Video.create(title: "Back to Future", description: "Time travel!", category: comedies)
-  #   expect(Video.search_by_title_categorized("Big")).to eq({})
-  # end
-
   it "categorizes the search results" do
     comedies = Category.create(name: "Comedies")
     dramas = Category.create(name: "Dramas")
@@ -62,17 +53,8 @@ describe ".search_by_title_categorized" do
 
     results = Video.search_by_title_categorized("Friends")
 
-    expect(results).to eq({
-      comedies => Set.new([friends, big, back_to_future]),
-      dramas => Set.new([nypd_blue]),
-      westerns => Set.new([friends_saloon, cowboy])
-      })
+    expect(results.videos_for_category(comedies)).to match_array([friends, big, back_to_future])
+    expect(results.videos_for_category(westerns)).to match_array([friends_saloon, cowboy])
+    expect(results.videos_for_category(dramas)).to match_array([nypd_blue])
   end
-
-  # it "returns a hash with one category and two videos when are a match on two videos of the same category" do
-  #   comedies = Category.create(name: "Comedies")
-  #   big = Video.create(title: "Big", description: "Tom Hanks becomes a child", category: comedies)
-  #   back_to_future = Video.create(title: "Back to Future", description: "Time travel!", category: comedies)
-  #   expect(Video.search_by_title_categorized("B")).to eq({comedies: [big, back_to_future]})
-  # end
 end

@@ -5,10 +5,9 @@ class Video < ActiveRecord::Base
   def self.search_by_title_categorized(search_term)
     raw_results = self.search_by_title(search_term)
 
-    raw_results.reduce({}) do |collection, video|
-      current_videos_in_category = collection[video.category] || Set.new
-      collection[video.category] = current_videos_in_category << video
-      collection
+    raw_results.reduce(SearchResult.new) do |result, video|
+      result.add_video(video)
+      result
     end
   end
 
