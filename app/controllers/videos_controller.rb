@@ -6,12 +6,12 @@ class VideosController < ApplicationController
   end
 
   def show
+    # binding.pry
     @video = Video.find(params[:id])
   end
 
   def search
     @results = Video.search_by_title_categorized(params[:search_term])
-
   end
 end
 

@@ -15,4 +15,8 @@ class SearchResult
   def videos_for_category(category)
     @data[category]
   end
+
+  def data
+    @data
+  end
 end
