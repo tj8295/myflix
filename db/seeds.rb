@@ -13,7 +13,7 @@ comedies = Category.create(name: "TV Commedies")
 dramas = Category.create(name: "TV Dramas")
 
 # Create videos
-Video.create(title: "Monk", description: "Detective with a sixth sense", small_cover_url: "monk.jpg", large_cover_url: "monk_large.jpg", category: comedies)
+monk = Video.create(title: "Monk", description: "Detective with a sixth sense", small_cover_url: "monk.jpg", large_cover_url: "monk_large.jpg", category: comedies)
 Video.create(title: "Family Guy", description: "Family with a smart baby", small_cover_url: "family_guy.jpg", category: comedies)
 Video.create(title: "South Park", description: "Kids from Colorado", small_cover_url: "south_park.jpg", category: comedies)
 Video.create(title: "Futurama", description: "A boy and his robot", small_cover_url: "futurama.jpg", category: comedies)
@@ -24,6 +24,10 @@ Video.create(title: "Futurama", description: "A boy and his robot", small_cover_
 Video.create(title: "Futurama", description: "A boy and his robot", small_cover_url: "futurama.jpg", category: dramas)
 
 User.create(email: "tch399@gmail.com", password: "123", full_name: "Thomas Habif")
-User.create(email: "123@gmail.com", password: "123", full_name: "Jim Allen")
+tom = User.create(email: "123@gmail.com", password: "123", full_name: "Jim Allen")
+
+Review.create(user: tom, video: monk, rating: 5, content: "this is a good movie!")
+Review.create(user: tom, video: monk, rating: 2, content: "Not a great one")
+
 
 
