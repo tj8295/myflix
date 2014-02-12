@@ -7,6 +7,7 @@ describe Video do
   it { should have_many(:reviews).order("created_at DESC") }
 end
 
+
 describe ".search_by_title" do
   it "returns empty array if there is no match" do
     futurama = Video.create(title: "Futurama", description: "Space Travel!")
