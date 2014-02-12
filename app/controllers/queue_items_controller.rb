@@ -6,7 +6,7 @@ class QueueItemsController < ApplicationController
   end
 
   def create
-    video = Video.find(params[:id])
+    video = Video.find(params[:video_id])
     queue_item = QueueItem.new(user: current_user, video: video)
     if queue_item.save
       flash[:success] = "The video was added to queue."

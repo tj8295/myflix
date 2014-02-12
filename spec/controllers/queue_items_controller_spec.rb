@@ -31,7 +31,7 @@ describe QueueItemsController do
           alice = Fabricate(:user)
           friends = Fabricate(:video)
           session[:user_id] = alice.id
-          post :create, user_id: alice.id, id: friends.id
+          post :create, user_id: alice.id, video_id: friends.id
           expect(QueueItem.count).to eq(1)
         end
 
@@ -39,7 +39,7 @@ describe QueueItemsController do
           alice = Fabricate(:user)
           friends = Fabricate(:video)
           session[:user_id] = alice.id
-          post :create, user_id: alice.id, id: friends.id
+          post :create, user_id: alice.id, video_id: friends.id
           expect(flash[:success]).not_to be_nil
         end
 
@@ -47,7 +47,7 @@ describe QueueItemsController do
           alice = Fabricate(:user)
           friends = Fabricate(:video)
           session[:user_id] = alice.id
-          post :create, user_id: alice.id, id: friends.id
+          post :create, user_id: alice.id, video_id: friends.id
           expect(response).to redirect_to my_queue_path
         end
       end
@@ -58,7 +58,7 @@ describe QueueItemsController do
           friends = Fabricate(:video)
           queue_item = Fabricate(:queue_item, user: alice, video: friends)
           session[:user_id] = alice.id
-          post :create, user_id: alice.id, id: friends.id
+          post :create, user_id: alice.id, video_id: friends.id
           expect(QueueItem.count).to eq(1)
         end
 
@@ -67,7 +67,7 @@ describe QueueItemsController do
           friends = Fabricate(:video)
           queue_item = Fabricate(:queue_item, user: alice, video: friends)
           session[:user_id] = alice.id
-          post :create, user_id: alice.id, id: friends.id
+          post :create, user_id: alice.id, video_id: friends.id
           expect(flash[:danger]).not_to be_nil
         end
 
@@ -76,13 +76,22 @@ describe QueueItemsController do
           friends = Fabricate(:video)
           queue_item = Fabricate(:queue_item, user: alice, video: friends)
           session[:user_id] = alice.id
-          post :create, user_id: alice.id, id: friends.id
+          post :create, user_id: alice.id, video_id: friends.id
           expect(response).to redirect_to friends
         end
       end
 
     end
-    context "user not authenticated"
+    context "user not authenticated" do
+      it "redirects to signin page" do
+          alice = Fabricate(:user)
+          friends = Fabricate(:video)
+          queue_item = Fabricate(:queue_item, user: alice, video: friends)
+          # session[:user_id] = alice.id
+          post :create, user_id: alice.id, video_id: friends.id
+          expect(response).to redirect_to sign_in_path
+      end
+    end
   end
 end
 
