@@ -121,6 +121,50 @@ describe QueueItemsController do
     end
   end
 
+  describe "GET destroy" do
+    context "user authenticated" do
+      it "redirects to queue_items#index path" do
+        alice = Fabricate(:user)
+        friends = Fabricate(:video)
+        queue_item = Fabricate(:queue_item, user: alice, video: friends)
+        session[:user_id] = alice.id
+        get :destroy, id: queue_item.id
+        expect(response).to redirect_to my_queue_path
 
+      end
+
+      it "deletes queue_item" do
+        alice = Fabricate(:user)
+        friends = Fabricate(:video)
+        queue_item = Fabricate(:queue_item, user: alice, video: friends)
+        session[:user_id] = alice.id
+        get :destroy, id: queue_item.id
+        expect(QueueItem.count).to eq(0)
+      end
+
+      it "sets the flash[:success]" do
+        alice = Fabricate(:user)
+        friends = Fabricate(:video)
+        queue_item = Fabricate(:queue_item, user: alice, video: friends)
+        session[:user_id] = alice.id
+        get :destroy, id: queue_item.id
+        expect(flash[:success]).not_to be_nil
+      end
+
+      it "does not delete queue_item for another user" do
+        alice = Fabricate(:user)
+        bob = Fabricate(:user)
+        friends = Fabricate(:video)
+        queue_item = Fabricate(:queue_item, user: alice, video: friends)
+        session[:user_id] = bob.id
+        get :destroy, id: queue_item.id
+        expect(QueueItem.count).to eq(1)
+      end
+    end
+
+    context "user not authenticated" do
+
+    end
+  end
 end
 
