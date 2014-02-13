@@ -35,6 +35,33 @@ describe QueueItemsController do
           expect(QueueItem.count).to eq(1)
         end
 
+
+        it "creates a queue_item associated with signed in user" do
+          alice = Fabricate(:user)
+          friends = Fabricate(:video)
+          session[:user_id] = alice.id
+          post :create, user_id: alice.id, video_id: friends.id
+          expect(QueueItem.first.user).to eq(alice)
+        end
+
+        it "creates a queue_item associated with the proper video" do
+          alice = Fabricate(:user)
+          friends = Fabricate(:video)
+          session[:user_id] = alice.id
+          post :create, video_id: friends.id
+          expect(QueueItem.first.video).to eq(friends)
+        end
+
+        it "puts the video as the last one in the queue" do
+          alice = Fabricate(:user)
+          friends = Fabricate(:video)
+          session[:user_id] = alice.id
+          queue_item = Fabricate(:queue_item, user: alice)
+          post :create, video_id: friends.id
+          friends_queue_item = QueueItem.where(video_id: friends .id, user_id: alice.id).first
+          expect(friends_queue_item.position).to eq(2)
+        end
+
         it "sets the flash[:success] message" do
           alice = Fabricate(:user)
           friends = Fabricate(:video)
@@ -43,7 +70,7 @@ describe QueueItemsController do
           expect(flash[:success]).not_to be_nil
         end
 
-        it "redirects to my_queue" do
+        it "redirects to my_queue page" do
           alice = Fabricate(:user)
           friends = Fabricate(:video)
           session[:user_id] = alice.id
@@ -93,5 +120,7 @@ describe QueueItemsController do
       end
     end
   end
+
+
 end
 

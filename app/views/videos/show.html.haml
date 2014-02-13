@@ -11,8 +11,7 @@
         .actions
           %a.btn.btn-primary(href="") Watch Now
           / HACK
-          - if QueueItem.where(user: current_user, video: @video).first.blank?
-            = link_to "+ My Queue", queue_items_path(current_user, video_id: @video.id), method: :post, class: "a btn btn-default"
+          = add_or_remove_from_queue_button
 
 %section.reviews.container
   .row
