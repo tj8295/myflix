@@ -11,6 +11,15 @@ describe QueueItemsController do
         get :index
         expect(assigns(:queue_items)).to match_array([queue_item1, queue_item2])
       end
+
+      it "returns @queue_items in order of position" do
+        alice = Fabricate(:user)
+        session[:user_id] = alice.id
+        queue_item1 = Fabricate(:queue_item, user: alice, position: 2)
+        queue_item2 = Fabricate(:queue_item, user: alice, position: 1)
+        get :index
+        expect(assigns(:queue_items)).to eq([queue_item2, queue_item1])
+      end
     end
 
     context "user not authenticated" do
@@ -22,6 +31,8 @@ describe QueueItemsController do
         expect(response).to redirect_to sign_in_path
       end
     end
+
+
   end
 
   describe "POST create" do
@@ -121,12 +132,11 @@ describe QueueItemsController do
     end
   end
 
-  describe "GET destroy" do
+  describe "DELETE destroy" do
     context "user authenticated" do
-      it "redirects to queue_items#index path" do
+      it "redirects to my queue path" do
         alice = Fabricate(:user)
-        friends = Fabricate(:video)
-        queue_item = Fabricate(:queue_item, user: alice, video: friends)
+        queue_item = Fabricate(:queue_item, user: alice)
         session[:user_id] = alice.id
         get :destroy, id: queue_item.id
         expect(response).to redirect_to my_queue_path
@@ -135,8 +145,7 @@ describe QueueItemsController do
 
       it "deletes queue_item" do
         alice = Fabricate(:user)
-        friends = Fabricate(:video)
-        queue_item = Fabricate(:queue_item, user: alice, video: friends)
+        queue_item = Fabricate(:queue_item, user: alice)
         session[:user_id] = alice.id
         get :destroy, id: queue_item.id
         expect(QueueItem.count).to eq(0)
@@ -144,8 +153,7 @@ describe QueueItemsController do
 
       it "sets the flash[:success]" do
         alice = Fabricate(:user)
-        friends = Fabricate(:video)
-        queue_item = Fabricate(:queue_item, user: alice, video: friends)
+        queue_item = Fabricate(:queue_item, user: alice)
         session[:user_id] = alice.id
         get :destroy, id: queue_item.id
         expect(flash[:success]).not_to be_nil
@@ -154,8 +162,7 @@ describe QueueItemsController do
       it "does not delete queue_item for another user" do
         alice = Fabricate(:user)
         bob = Fabricate(:user)
-        friends = Fabricate(:video)
-        queue_item = Fabricate(:queue_item, user: alice, video: friends)
+        queue_item = Fabricate(:queue_item, user: alice)
         session[:user_id] = bob.id
         get :destroy, id: queue_item.id
         expect(QueueItem.count).to eq(1)
@@ -163,7 +170,10 @@ describe QueueItemsController do
     end
 
     context "user not authenticated" do
-
+      it "redirects to sign_in_path for user not logged in" do
+        get :destroy, id: 3
+        expect(response).to redirect_to sign_in_path
+      end
     end
   end
 end

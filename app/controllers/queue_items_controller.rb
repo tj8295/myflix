@@ -2,7 +2,7 @@ class QueueItemsController < ApplicationController
   before_action :require_user
 
   def index
-    @queue_items = current_user.queue_items
+    @queue_items = current_user.queue_items.sort_by(&:position)
   end
 
   def create
@@ -21,13 +21,13 @@ class QueueItemsController < ApplicationController
     queue_item = QueueItem.find(params[:id])
 
     if current_user == queue_item.user
-       QueueItem.find(params[:id]).delete
+       queue_item.destroy
        flash[:success] = "The video has been deleted from your queue"
-       redirect_to my_queue_path
     else
        flash[:danger] = "You can not do that."
-       redirect_to my_queue_path
     end
+
+    redirect_to my_queue_path
   end
 
   private
@@ -35,6 +35,7 @@ class QueueItemsController < ApplicationController
        QueueItem.new(user: current_user, video: video, position: new_queue_item_position)
      # unless current_user_queued_video?(video)
     end
+
     def new_queue_item_position
       current_user.queue_items.count + 1
     end
