@@ -1,17 +1,17 @@
 class QueueItem < ActiveRecord::Base
+
+  # validates :position, numericality: { only_integer: true }
   belongs_to :user
   belongs_to :video
 
-  validates_uniqueness_of :video, scope: [:user]
-  # validates :position, numericality: { only_integer: true }
 
+
+  validates_uniqueness_of :video, scope: [:user]
+  validates_numericality_of :position, { only_integer: true }
 
   delegate :category, to: :video
   delegate :title, to: :video, prefix: :video
 
-  # def video_title
-  #   title
-  # end
 
   def rating
       review = Review.where(user_id: user.id, video_id: video.id).first
