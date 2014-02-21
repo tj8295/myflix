@@ -31,14 +31,24 @@ describe QueueItem do
   end
 
   describe "rating=" do
-    it "updates queue_item's videos rating" do
+    it "updates queue_item's videos rating if review present" do
         alice = Fabricate(:user)
         friends = Fabricate(:video)
-        review = Fabricate(:review, user: alice, video: friends)
+        review = Fabricate(:review, user: alice, video: friends, rating: 2)
         queue_item1 = Fabricate(:queue_item, user: alice, video: friends)
-        queue_item1.rating=5
-        expect(queue_item1.rating).to eq(5)
+        queue_item1.rating = 5
+        expect(Review.first.rating).to eq(5)
     end
+
+    it "clears the rating of the review if the review is present" do
+        alice = Fabricate(:user)
+        friends = Fabricate(:video)
+        review = Fabricate(:review, user: alice, video: friends, rating: 2)
+        queue_item1 = Fabricate(:queue_item, user: alice, video: friends)
+        queue_item1.rating = nil
+        expect(Review.first.rating).to be_nil
+    end
+
 
     it "creates a review if there is none and assigns the rating" do
         alice = Fabricate(:user)
@@ -46,7 +56,7 @@ describe QueueItem do
         # review = Fabricate(:review, user: alice, video: friends)
         queue_item1 = Fabricate(:queue_item, user: alice, video: friends)
         queue_item1.rating=5
-        expect(queue_item1.rating).to eq(5)
+        expect(Review.first.rating).to eq(5)
     end
 
 
@@ -69,7 +79,4 @@ describe QueueItem do
     end
   end
 
-#   describe "#position_number" do
-#     it "returns the position in the queue"
-#   end
 end

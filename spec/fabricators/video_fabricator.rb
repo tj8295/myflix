@@ -3,4 +3,3 @@ Fabricator(:video) do
   description { Faker::Lorem.paragraph(2) }
   category { Fabricate(:category) }
 end
-

@@ -31,10 +31,15 @@ group :development, :test do
   gem 'guard-livereload'
   gem 'guard-bundler'
   gem 'guard-haml'
+  gem 'launchy'
+  gem 'selenium-webdriver'
+  gem 'capybara-webkit'
+  gem 'database_cleaner'
 end
 
 group :test do
   gem 'shoulda-matchers'
+  gem 'capybara'
 end
 
 group :production do
