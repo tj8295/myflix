@@ -8,7 +8,6 @@ Myflix::Application.routes.draw do
   post '/sign_in', to: 'sessions#create'
   get '/sign_out', to: 'sessions#destroy'
   get '/my_queue', to: 'queue_items#index'
-
   post '/update_queue', to: 'queue_items#update_queue'
 
   resources :categories, only: [:show]
@@ -22,5 +21,4 @@ Myflix::Application.routes.draw do
       get :search, to: 'videos#search'
     end
   end
-
 end

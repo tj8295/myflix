@@ -58,8 +58,6 @@ describe QueueItem do
         queue_item1.rating=5
         expect(Review.first.rating).to eq(5)
     end
-
-
   end
 
   describe "#category_name" do
@@ -78,5 +76,4 @@ describe QueueItem do
         expect(queue_item1.category).to eq(friends.category)
     end
   end
-
 end

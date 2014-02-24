@@ -14,6 +14,11 @@ class UsersController < ApplicationController
     end
   end
 
+  def show
+    @queue_items = current_user.queue_items
+    @reviews = Review.where(user: current_user)
+  end
+
 private
   def user_params
     params.require(:user).permit(:email, :password, :full_name)
