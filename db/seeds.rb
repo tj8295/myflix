@@ -14,20 +14,27 @@ dramas = Category.create(name: "TV Dramas")
 
 # Create videos
 monk = Video.create(title: "Monk", description: "Detective with a sixth sense", small_cover_url: "monk.jpg", large_cover_url: "monk_large.jpg", category: comedies)
-Video.create(title: "Family Guy", description: "Family with a smart baby", small_cover_url: "family_guy.jpg", category: comedies)
-Video.create(title: "South Park", description: "Kids from Colorado", small_cover_url: "south_park.jpg", category: comedies)
-Video.create(title: "Futurama", description: "A boy and his robot", small_cover_url: "futurama.jpg", category: comedies)
+family_guy = Video.create(title: "Family Guy", description: "Family with a smart baby", small_cover_url: "family_guy.jpg", category: comedies)
+south_park = Video.create(title: "South Park", description: "Kids from Colorado", small_cover_url: "south_park.jpg", category: comedies)
+futurama = Video.create(title: "Futurama", description: "A boy and his robot", small_cover_url: "futurama.jpg", category: comedies)
 
 Video.create(title: "Family Guy", description: "Family with a smart baby", small_cover_url: "family_guy.jpg", category: comedies)
 Video.create(title: "South Park", description: "Kids from Colorado", small_cover_url: "south_park.jpg", category: comedies)
 Video.create(title: "Futurama", description: "A boy and his robot", small_cover_url: "futurama.jpg", category: comedies)
 Video.create(title: "Futurama", description: "A boy and his robot", small_cover_url: "futurama.jpg", category: dramas)
 
-User.create(email: "tch399@gmail.com", password: "123", full_name: "Thomas Habif")
-tom = User.create(email: "123@gmail.com", password: "123", full_name: "Jim Allen")
+tom = User.create(email: "tch399@gmail.com", password: "123", full_name: "Thomas Habif")
+
+jim = User.create(email: "123@gmail.com", password: "123", full_name: "Jim Allen")
+
+bob = User.create(email: "13@gmail.com", password: "12s3", full_name: "Bob Thomas")
 
 Review.create(user: tom, video: monk, rating: 5, content: "this is a good movie!")
 Review.create(user: tom, video: monk, rating: 2, content: "Not a great one")
+Review.create(user: bob, video: south_park, rating: 2, content: "a very good one")
+Review.create(user: bob, video: futurama, rating: 2, content: "a very nice one")
+Review.create(user: bob, video: family_guy, rating: 2, content: "a very nice one")
+Review.create(user: jim, video: family_guy, rating: 2, content: "a very nice one")
 
 
 

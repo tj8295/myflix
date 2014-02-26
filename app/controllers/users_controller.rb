@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_action :require_user, only: [:show]
+
   def new
     @user = User.new
   end
@@ -15,8 +17,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    @queue_items = current_user.queue_items
-    @reviews = Review.where(user: current_user)
+    @user = User.find(params[:id])
   end
 
 private

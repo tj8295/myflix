@@ -43,24 +43,17 @@ describe UsersController do
   end
 
   describe "GET show" do
-    it "sets the @queue_items variable for authenticated users" do
+    it "sets the @user" do
       alice = Fabricate(:user)
       set_current_user(alice)
       queue_item1 = Fabricate(:queue_item, user: alice)
       queue_item2 = Fabricate(:queue_item, user: alice)
       get :show, id: alice.id
-      expect(assigns(:queue_items)).to match_array([queue_item1, queue_item2])
+      expect(assigns(:user)).to eq(alice)
     end
-    it "sets the @reviews variable for authenticated users" do
-      alice = Fabricate(:user)
-      set_current_user(alice)
-      superman = Fabricate(:video)
-      batman = Fabricate(:video)
-      review1 = Fabricate(:review, video: superman, user: alice)
-      review2 = Fabricate(:review, video: batman, user: alice)
-      get :show, id: alice.id
-      # binding.pry
-      expect(assigns(:reviews)).to match_array([review1, review2])
+
+    it_behaves_like "require_sign_in" do
+      let(:action) { get :show, id: 3 }
     end
   end
 end
