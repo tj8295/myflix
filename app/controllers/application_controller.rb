@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user, :logged_in?, :redirect_from_view
 
   def current_user
-    @user ||= User.find(session[:user_id]) if session[:user_id]
+    @user_defined ||= User.find(session[:user_id]) if session[:user_id]
   end
 
   def logged_in?

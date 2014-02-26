@@ -21,7 +21,3 @@ feature 'User tests social networking features' do
     find("a[data-method='delete']").click
   end
 end
-
-
-# click on people link and then the person you followed should be in the list
-# click on unfollow and make sure the person is not in the list

@@ -69,7 +69,6 @@ feature 'User interacts with the queue' do
     # expect(find("#video_#{monk.id}").value).to eq('3')
   end
 
-
   def add_video_to_queue(video)
     visit root_path
     click_on_video_on_homepage(video)
