@@ -37,7 +37,7 @@ group :development, :test do
   gem 'capybara-webkit'
   gem 'database_cleaner'
   gem 'letter_opener'
-  gem 'figaro'
+  # gem 'figaro'
 end
 
 group :test do
