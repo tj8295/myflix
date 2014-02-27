@@ -3,7 +3,7 @@ ruby '2.0.0'
 
 gem 'bootstrap-sass'
 gem 'coffee-rails'
-gem "rails", '4.0.0'
+gem "rails"
 gem 'haml-rails'
 gem 'sass-rails'
 gem 'uglifier'
@@ -27,7 +27,6 @@ group :development, :test do
   gem 'pry-nav'
   gem 'spring-commands-rspec'
   gem 'guard-rspec'
-  gem 'rb-fsevent'
   gem 'guard-livereload'
   gem 'guard-bundler'
   gem 'guard-haml'
