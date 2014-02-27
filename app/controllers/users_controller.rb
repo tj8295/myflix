@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      AppMailer.new_registration(@user).deliver
+      AppMailer.send_welcome_email(@user).deliver
       session[:user_id] = @user.id
       flash[:success] = "User saved"
       redirect_to home_path

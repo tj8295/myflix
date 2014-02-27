@@ -19,4 +19,14 @@ Myflix::Application.configure do
   config.assets.debug = true
 
   config.eager_load = false
+
+  config.action_mailer.smtp_settings = {
+  address: "smtp.gmail.com",
+  port: 587,
+  # domain: "example.com",
+  authentication: "plain",
+  enable_starttls_auto: true,
+  user_name: ENV["GMAIL_USERNAME"],
+  password: ENV["GMAIL_PASSWORD"]
+}
 end
