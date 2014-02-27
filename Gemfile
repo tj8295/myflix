@@ -27,7 +27,7 @@ group :development, :test do
   gem 'pry-nav'
   gem 'spring-commands-rspec'
   gem 'guard-rspec'
-  # gem 'rb-fsevent' if `uname` =~ /Darwin/
+  gem 'rb-fsevent'
   gem 'guard-livereload'
   gem 'guard-bundler'
   gem 'guard-haml'
