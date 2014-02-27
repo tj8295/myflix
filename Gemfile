@@ -12,11 +12,11 @@ gem 'bootstrap_form'
 gem 'bcrypt-ruby'
 gem 'fabrication'
 gem 'faker'
+gem "better_errors"
 
 group :development do
   gem 'sqlite3'
   gem 'thin'
-  gem "better_errors"
   gem "binding_of_caller"
   gem 'meta_request'
 end
