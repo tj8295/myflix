@@ -254,7 +254,6 @@ DEPENDENCIES
   pry-nav
   rails
   rails_12factor
-  rb-fsevent
   rspec-rails
   sass-rails
   selenium-webdriver
