@@ -25,9 +25,10 @@ describe UsersController do
     end
 
     context "email sending" do
-      it "sends out an email" do
-        post :create, user: Fabricate.attributes_for(:user)
-        ActionMailer::Base.deliveries.should_not be_empty
+      after { ActionMailer::Base.deliveries.clear }
+      it "sends out an email to user with valid inputs" do
+        post :create, user: { email: "joe@example.com", password: "password", full_name: "Joe Smith"}
+        expect(ActionMailer::Base.deliveries.last.to).to eq(["joe@example.com"])
       end
 
       it "sends to the correct recipient" do
@@ -39,9 +40,14 @@ describe UsersController do
 
       it "has the correct content" do
         attributes = Fabricate.attributes_for(:user)
-        post :create, user: attributes
+      post :create, user: {  email: "joe@example.com", password: "password", full_name: "Joe Smith"}
         message = ActionMailer::Base.deliveries.last
-        message.body.should include("successfully")
+        message.body.should include("Joe Smith")
+      end
+
+      it "does not send email with invalid inputs" do
+        post :create, user: { full_name: "Joe Smith"}
+        expect(ActionMailer::Base.deliveries).to be_empty
       end
     end
 
