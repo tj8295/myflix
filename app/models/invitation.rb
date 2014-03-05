@@ -1,4 +1,3 @@
-
 class Invitation < ActiveRecord::Base
   include Tokenable
 
