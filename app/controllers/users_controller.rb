@@ -46,7 +46,7 @@ private
   end
 
   def handle_invitation
-    if params[:invitation_token]
+    if params[:invitation_token].present?
       invitation = Invitation.find_by(token: params[:invitation_token])
       inviter = User.find(invitation.inviter_id)
       @user.follow(invitation.inviter)

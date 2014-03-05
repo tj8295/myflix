@@ -1,3 +1,5 @@
+require_relative '../../lib/tokenable'
+
 class User < ActiveRecord::Base
   include Tokenable
 

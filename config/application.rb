@@ -16,6 +16,7 @@ module Myflix
       g.template_engine :haml
     end
 
+    config.autoload_paths << "#{Rails.root}/lib"
     # config.action_mailer.default_url_options = { host: 'localhost:3000' }
 
     config.before_configuration do
