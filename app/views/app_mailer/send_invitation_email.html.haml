@@ -1,0 +1,6 @@
+%html
+  %body
+    %p Hello #{@invitation.recipient_name}
+    %p You are invited by #{@invitation.inviter.full_name}
+    %p= @invitation.message
+    %p= link_to "Accept invitation", register_with_token_url(@invitation.token)

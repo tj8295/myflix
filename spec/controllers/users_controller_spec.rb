@@ -9,22 +9,108 @@ describe UsersController do
     end
   end
 
+  describe "GET new_with_invitation_token" do
+    context "with valid user input" do
+      it "renders :new template" do
+        invitation = Fabricate(:invitation)
+        get :new_with_invitation_token, token: invitation.token
+        expect(response).to render_template :new
+      end
+
+      it "sets @user with recipient_email" do
+        invitation = Fabricate(:invitation)
+        get :new_with_invitation_token, token: invitation.token
+        expect(assigns(:user).email).to eq(invitation.recipient_email)
+      end
+
+      it "sets @user with recipient_name" do
+        invitation = Fabricate(:invitation)
+        get :new_with_invitation_token, token: invitation.token
+        expect(assigns(:user).full_name).to eq(invitation.recipient_name)
+      end
+
+      it "sets @invitation" do
+        invitation = Fabricate(:invitation)
+        get :new_with_invitation_token, token: invitation.token
+        expect(assigns(:invitation_token)).to be_present
+      end
+
+      it "sets @invitation_token" do
+        invitation = Fabricate(:invitation)
+        get :new_with_invitation_token, token: invitation.token
+        expect(assigns(:invitation_token)).to be_present
+      end
+    end
+
+    context "with invalid user input" do
+      it "redirects to expired_token page" do
+        invitation = Fabricate(:invitation)
+        get :new_with_invitation_token, token: 'dfsa'
+        expect(response).to redirect_to expired_token_path
+      end
+
+      it "sets flash[:danger]" do
+        invitation = Fabricate(:invitation)
+        get :new_with_invitation_token, token: 'dfsa'
+        expect(flash[:danger]).to be_present
+      end
+
+    end
+  end
+
+  # describe "#token_present?" do
+  #   it "returns true if a hidden token is passed" do
+  #     @controller = User.new
+
+  #     post :create, user: { email: "joe@example.com", password: "password", full_name: "Joe Smith", token: 'sfdjio'}
+  #     expect(create.send(:token_present?)).to eq(true)
+  #   end
+  # end
+
   describe "POST create" do
     context "with valid user input" do
-      before do
-        post :create, user: Fabricate.attributes_for(:user)
+      context "with and without invitation" do
+        before do
+          post :create, user: Fabricate.attributes_for(:user)
+        end
+
+        it "creates @user in db on valid input" do
+          expect(User.count).to eq(1)
+        end
+
+        it "redirects to home_path on valid input" do
+          expect(response).to redirect_to home_path
+        end
       end
 
-      it "creates @user in db on valid input" do
-        expect(User.count).to eq(1)
-      end
+      context "with invitation" do
+        it "creates following relationship so invitation recipient follows inviter" do
+          alice = Fabricate(:user)
+          invitation = Fabricate(:invitation, inviter: alice)
+          post :create, user: { email: invitation.recipient_email, password: "password", full_name: invitation.recipient_name }, invitation_token: invitation.token
+          joe = User.find_by(email: invitation.recipient_email)
+          expect(alice.follows?(joe)).to eq(true)
+        end
 
-      it "redirects to home_path on valid input" do
-        expect(response).to redirect_to home_path
+        it "creates following relationship so inviter follows invitation recipient" do
+          alice = Fabricate(:user)
+          invitation = Fabricate(:invitation, inviter: alice)
+          post :create, user: { email: invitation.recipient_email, password: "password", full_name: invitation.recipient_name }, invitation_token: invitation.token
+          joe = User.find_by(email: invitation.recipient_email)
+          expect(joe.follows?(alice)).to eq(true)
+        end
+
+        it "resets invitation token" do
+          alice = Fabricate(:user)
+          invitation = Fabricate(:invitation, inviter: alice)
+          post :create, user: { email: invitation.recipient_email, password: "password", full_name: invitation.recipient_name }, invitation_token: invitation.token
+          expect(invitation.reload.token).to eq(nil)
+        end
       end
     end
 
     context "email sending" do
+      before { ActionMailer::Base.deliveries.clear }
       after { ActionMailer::Base.deliveries.clear }
       it "sends out an email to user with valid inputs" do
         post :create, user: { email: "joe@example.com", password: "password", full_name: "Joe Smith"}

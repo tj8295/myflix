@@ -8,7 +8,9 @@ gem 'haml-rails'
 gem 'sass-rails'
 gem 'uglifier'
 gem 'jquery-rails'
-gem 'bootstrap_form'
+# gem 'bootstrap_form'
+gem 'bootstrap_form', :git => 'https://github.com/bootstrap-ruby/rails-bootstrap-forms.git', :ref => '2c67704174943fc5526dbad44b184e26ac5d4f07'
+
 gem 'bcrypt-ruby'
 gem 'fabrication'
 gem 'faker'
@@ -35,6 +37,12 @@ group :development, :test do
   gem 'capybara-webkit'
   gem 'database_cleaner'
   gem 'letter_opener'
+  gem 'capybara-email'
+
+  gem 'spork-rails', '4.0.0'
+  gem 'guard-spork', '1.5.0'
+  # gem 'childprocess', '0.3.6'
+
   # gem 'figaro'
 end
 
