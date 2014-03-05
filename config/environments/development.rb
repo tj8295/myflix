@@ -32,4 +32,5 @@ Myflix::Application.configure do
     password: ENV["GMAIL_PASSWORD"]
   }
 
+
 end

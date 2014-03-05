@@ -7,9 +7,8 @@ describe User do
   it { should validate_presence_of(:password) }
   it { should validate_presence_of(:full_name)}
 
-  it "generates a random token when the user is created" do
-    alice = Fabricate(:user)
-    expect(alice.token).not_to eq(nil)
+  it_behaves_like "tokenable" do
+    let(:object) { Fabricate(:user) }
   end
 
   describe "#queued_video?" do
