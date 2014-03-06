@@ -17,10 +17,11 @@ gem 'fabrication'
 gem 'faker'
 gem "better_errors"
 gem 'foreman'
+gem 'unicorn'
 
 group :development do
   gem 'sqlite3'
-  gem 'thin'
+  # gem 'thin'
   gem "binding_of_caller"
   gem 'meta_request'
 end
