@@ -1,8 +1,9 @@
 require 'rubygems'
 require 'spork'
+
 #uncomment the following line to use spork with the debugger
 #require 'spork/ext/ruby-debug'
-
+#
 
 
 Spork.prefork do
@@ -10,6 +11,8 @@ Spork.prefork do
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
+require 'sidekiq/testing'
+Sidekiq::Testing.inline!
 require 'rspec/rails'
 require 'rspec/autorun'
 require 'capybara/email/rspec'

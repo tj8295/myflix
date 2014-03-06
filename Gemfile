@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.0.0'
 
+gem 'sidekiq'
 gem 'bootstrap-sass'
 gem 'coffee-rails'
 gem "rails", "4.0.1"
@@ -15,6 +16,7 @@ gem 'bcrypt-ruby'
 gem 'fabrication'
 gem 'faker'
 gem "better_errors"
+gem 'foreman'
 
 group :development do
   gem 'sqlite3'
