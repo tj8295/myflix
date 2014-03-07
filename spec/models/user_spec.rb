@@ -57,6 +57,14 @@ describe User do
     end
   end
 
+  describe "#admin?" do
+    it "returns true if admin" do
+      alice = Fabricate(:user)
+      alice.update_column(:admin, true)
+      expect(alice.reload.admin?).to eq(true)
+    end
+  end
+
   describe ".find_user_by_invitation_token" do
     it "finds and returns a user object given an invitation token" do
       alice = Fabricate(:user)
