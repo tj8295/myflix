@@ -19,6 +19,7 @@ CarrierWave.configure do |config|
       :aws_secret_access_key      => 'iVaHpx3A9lpBkGVm8YTF0AmYMziA6dpRY91OOjis'
       # :aws_secret_access_key  => ENV["AWS_SECRET_ACCESS_KEY"],                         # required
     }
+
     config.fog_directory  = 'myflix603'                     # required
   else
     config.storage = :file

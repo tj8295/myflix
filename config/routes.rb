@@ -18,6 +18,8 @@ Myflix::Application.routes.draw do
     resources :videos, only: [:new, :create]
   end
 
+  resources :payments, only: [:new, :create]
+
   resources :forgot_passwords, only: [:new, :create]
   resources :relationships, only: [:create, :destroy]
 

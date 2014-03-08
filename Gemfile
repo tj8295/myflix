@@ -1,6 +1,8 @@
 source 'https://rubygems.org'
 ruby '2.0.0'
 
+gem 'stripe'
+gem 'stripe_event'
 gem 'sidekiq'
 gem 'bootstrap-sass'
 gem 'coffee-rails'
@@ -21,6 +23,7 @@ gem 'unicorn'
 gem 'carrierwave'
 gem 'fog'
 gem 'mini_magick'
+gem 'figaro'
 
 group :development do
   gem 'sqlite3'
