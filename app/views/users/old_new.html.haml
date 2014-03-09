@@ -8,5 +8,5 @@
         = f.email_field :email, label: "Email Address"
         = f.password_field :password
         = f.text_field :full_name, label: "Full Name"
-        %script(src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="pk_test_wUUlTBT8HkbSoT2DcHcE8hYP" data-image="/square-image.png" data-name="Purchase and Sign Up" data-description="Thank you for purchasing MyFlix." data-amount="999")
+        %script(src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="#{ENV['STRIPE_PUBLISHABLE_KEY']}" data-image="/square-image.png" data-name="Myflix Sign Up Charge" data-description="$9.99 to sign up the best video service." data-currency="usd" data-amount="999")
         / = f.submit "Sign Up"
