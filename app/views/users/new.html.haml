@@ -1,13 +1,36 @@
+<script type="text/javascript" src="https://js.stripe.com/v2"></script>
+<script type="text/javascript">
+Stripe.setPublishableKey('pk_test_wUUlTBT8HkbSoT2DcHcE8hYP');
+</script>
+= javascript_include_tag 'payment'
+
 %section.register.container
   .row
     .col-sm-10.col-sm-offset-1
-      = bootstrap_form_for(@user, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-8", html: { class: "form-horizontal" } ) do |f|
+      = bootstrap_form_for(@user, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-8", html: { class: "form-horizontal", id: "payment-form" } ) do |f|
         %header
           %h1 Register
-        = hidden_field_tag :invitation_token, @invitation_token
-        = f.email_field :email, label: "Email Address"
-        = f.password_field :password
-        = f.text_field :full_name, label: "Full Name"
-        = form_tag payments_path do
-          %script(src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="pk_test_wUUlTBT8HkbSoT2DcHcE8hYP" data-name="Purchase and Sign Up" data-description="Thank you for purchasing MyFlix." data-amount="999")
-        / = f.submit "Sign Up"
+        %fieldset
+          = hidden_field_tag :invitation_token, @invitation_token
+          = f.email_field :email, label: "Email Address"
+          = f.password_field :password
+          = f.text_field :full_name, label: "Full Name"
+        %fieldset.credit_card
+          %span.payment-errors
+          .form-group
+            %label.control-label.col-sm-2 Credit Card Number
+            .col-sm-6
+              %input.form-control.card-number(type="text" data-stripe="number")
+          .form-group
+            %label.control-label.col-sm-2 Security Code
+            .col-sm-6
+              %input.form-control.card-cvc(type="text" data-stripe="cvc")
+          .form-group
+            %label.control-label.col-sm-2 Expiration
+            .col-sm-3
+              = select_month(Date.today, {add_month_numbers: true}, name: nil, class: 'form-control card-expiry-month', data: {stripe: "exp-month"})
+            .col-sm-2
+              = select_year(Date.today.year, {start_year: Date.today.year, end_year: Date.today.year + 4}, name: nil, class: 'form-control card-expiry-year', data: {stripe: "exp-year"})
+        %fieldset.actions.control-group.col-sm-offset-2
+          .controls
+            %input(type="submit" value="Sign up" class='btn btn-default')

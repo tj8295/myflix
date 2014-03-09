@@ -1,8 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.0.0'
 
-gem 'stripe'
-gem 'stripe_event'
+gem 'jquery-rails'
 gem 'sidekiq'
 gem 'bootstrap-sass'
 gem 'coffee-rails'
@@ -10,7 +9,6 @@ gem "rails", "4.0.1"
 gem 'haml-rails'
 gem 'sass-rails'
 gem 'uglifier'
-gem 'jquery-rails'
 # gem 'bootstrap_form'
 gem 'bootstrap_form', :git => 'https://github.com/bootstrap-ruby/rails-bootstrap-forms.git', :ref => '2c67704174943fc5526dbad44b184e26ac5d4f07'
 
@@ -24,6 +22,8 @@ gem 'carrierwave'
 gem 'fog'
 gem 'mini_magick'
 gem 'figaro'
+gem 'stripe'
+gem 'stripe_event'
 
 group :development do
   gem 'sqlite3'
