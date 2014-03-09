@@ -24,8 +24,8 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       handle_invitation
-      Stripe.api_key = 'sk_test_S7SfOyW1ciRq6DBVsEb7WPRW'
-      # Stripe.api_key = ENV['STRIPE_SECRET_KEY']
+      # Stripe.api_key = 'sk_test_S7SfOyW1ciRq6DBVsEb7WPRW'
+      Stripe.api_key = ENV['STRIPE_SECRET_KEY']
 
       Stripe::Charge.create(
         :amount => 999,
