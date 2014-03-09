@@ -20,9 +20,11 @@ class UsersController < ApplicationController
   end
 
   def create
+
     @user = User.new(user_params)
     if @user.save
       handle_invitation
+      # Stripe.api_key = 'sk_test_S7SfOyW1ciRq6DBVsEb7WPRW'
       Stripe.api_key = ENV['STRIPE_SECRET_KEY']
 
       Stripe::Charge.create(
@@ -36,7 +38,16 @@ class UsersController < ApplicationController
       session[:user_id] = @user.id
       AppMailer.delay.send_welcome_email(@user)
       redirect_to home_path
+
+
+
     else
+
+      #  rescue Stripe::CardError => e
+      #   flash[:danger] = e.message
+      #   redirect_to register_path
+      # end
+
       render :new
     end
   end
