@@ -30,7 +30,7 @@ Stripe.setPublishableKey('pk_test_wUUlTBT8HkbSoT2DcHcE8hYP');
             .col-sm-3
               = select_month(Date.today, {add_month_numbers: true}, name: nil, class: 'form-control card-expiry-month', data: {stripe: "exp-month"})
             .col-sm-2
-              = select_year(Date.today.year, {start_year: Date.today.year, end_year: Date.today.year + 4}, name: nil, class: 'form-control card-expiry-year', data: {stripe: "exp-year"})
+              = select_year(Date.today.year, {start_year: Date.today.year+1, end_year: Date.today.year + 4}, name: nil, class: 'form-control card-expiry-year', data: {stripe: "exp-year"})
         %fieldset.actions.control-group.col-sm-offset-2
           .controls
             %input(type="submit" value="Sign up" class='btn btn-default')
