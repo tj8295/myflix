@@ -20,27 +20,27 @@ class UsersController < ApplicationController
   end
 
   def create
-
     @user = User.new(user_params)
     if @user.save
       handle_invitation
+      charge = StripeWrapper::Charge.create(amount: 999, card: params[:stripeToken])
       #Stripe.api_key = 'sk_test_S7SfOyW1ciRq6DBVsEb7WPRW'
-      Stripe.api_key = ENV['STRIPE_SECRET_KEY']
 
-      Stripe::Charge.create(
-        :amount => 999,
-        :currency => "usd",
-        :card => params[:stripeToken],
-        :description => "Sign up charge for #{@user.email}."
-      )
-
-      flash[:success] = "Payment accepted. User saved"
-      session[:user_id] = @user.id
-      AppMailer.delay.send_welcome_email(@user)
-      redirect_to home_path
-
-
-
+      # Stripe::Charge.create(
+      #   :amount => 999,
+      #   :currency => "usd",
+      #   :card => params[:stripeToken],
+      #   :description => "Sign up charge for #{@user.email}."
+      # )
+      if charge.successful?
+        flash[:success] = "Payment accepted. User saved"
+        session[:user_id] = @user.id
+        AppMailer.delay.send_welcome_email(@user)
+        redirect_to home_path
+      else
+        flash[:danger] = charge.error_message
+        redirect_to register_path
+      end
     else
 
       #  rescue Stripe::CardError => e
