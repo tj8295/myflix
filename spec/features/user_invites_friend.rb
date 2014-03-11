@@ -1,15 +1,15 @@
 require 'spec_helper'
 
 feature "User invites friend" do
-  scenario "User successfully invitets friend and invitation is accepted" do
+  scenario "User successfully invitets friend and invitation is accepted", { js: true, vcr: true } do
+    # joe = User.create(email: "joe@example.com", password: "ok", full_name: "Thomas H", admin: false)
     joe = Fabricate(:user)
     sign_in(joe)
-
     invite_friend
     friend_accepts_invitation
-
     friend_signs_in
     friend_should_follow(joe)
+
     inviter_should_follow_friend(joe)
 
     clear_emails
@@ -27,11 +27,17 @@ feature "User invites friend" do
 
   def friend_accepts_invitation
     open_email("alice@example.com")
+
     current_email.click_link("Accept invitation")
     fill_in "Email Address", with: "john@example.com"
     fill_in "Password", with: 'password'
     fill_in "Full Name", with: 'Alice'
-    click_button "Sign Up"
+    fill_in "Credit Card Number", with: "4242 4242 4242 4242"
+    fill_in "Security Code", with: "234"
+    select('3 - March', :from => 'date_month')
+    select('2015', :from => 'date_year')
+    click_button "Sign up"
+    expect(page).to have_content("Payment accepted. User saved")
   end
 
   def friend_signs_in

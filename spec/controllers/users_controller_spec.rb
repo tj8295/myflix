@@ -68,17 +68,22 @@ describe UsersController do
   # end
 
   describe "POST create" do
+    before do
+      charge = double('charge')
+      charge.stub(:successful?).and_return(true)
+      StripeWrapper::Charge.stub(:create).and_return(charge)
+    end
     context "with valid user input" do
       context "with and without invitation" do
-        before do
-          post :create, user: Fabricate.attributes_for(:user)
-        end
 
         it "creates @user in db on valid input" do
+
+          post :create, user: Fabricate.attributes_for(:user)
           expect(User.count).to eq(1)
         end
 
         it "redirects to home_path on valid input" do
+          post :create, user: Fabricate.attributes_for(:user)
           expect(response).to redirect_to home_path
         end
       end

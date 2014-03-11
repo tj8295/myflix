@@ -44,20 +44,23 @@ group :development, :test do
   gem 'launchy'
   gem 'selenium-webdriver'
   gem 'capybara-webkit'
-  gem 'database_cleaner'
   gem 'letter_opener'
   gem 'capybara-email'
 
   gem 'spork-rails', '4.0.0'
   gem 'guard-spork', '1.5.0'
+
   # gem 'childprocess', '0.3.6'
 
-  # gem 'figaro'
 end
 
 group :test do
   gem 'shoulda-matchers'
   gem 'capybara'
+  gem 'webmock', '1.11.0'
+  gem 'vcr'
+  gem 'database_cleaner'
+
 end
 
 group :production do

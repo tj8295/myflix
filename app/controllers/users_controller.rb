@@ -39,7 +39,7 @@ class UsersController < ApplicationController
         redirect_to home_path
       else
         flash[:danger] = charge.error_message
-        redirect_to register_path
+        render :new
       end
     else
 
