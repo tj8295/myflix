@@ -58,22 +58,15 @@ describe UsersController do
     end
   end
 
-  # describe "#token_present?" do
-  #   it "returns true if a hidden token is passed" do
-  #     @controller = User.new
-
-  #     post :create, user: { email: "joe@example.com", password: "password", full_name: "Joe Smith", token: 'sfdjio'}
-  #     expect(create.send(:token_present?)).to eq(true)
-  #   end
-  # end
-
   describe "POST create" do
-    before do
-      charge = double('charge')
-      charge.stub(:successful?).and_return(true)
-      StripeWrapper::Charge.stub(:create).and_return(charge)
-    end
-    context "with valid user input" do
+    context "with valid user input and valid card" do
+
+      let(:charge) { double(:charge, successful?: true) }
+
+      before do
+        StripeWrapper::Charge.should_receive(:create).and_return(charge)
+      end
+
       context "with and without invitation" do
 
         it "creates @user in db on valid input" do
@@ -115,7 +108,14 @@ describe UsersController do
     end
 
     context "email sending" do
-      before { ActionMailer::Base.deliveries.clear }
+
+      let(:charge) { double(:charge, successful?: true) }
+
+      before do
+        StripeWrapper::Charge.should_receive(:create).and_return(charge)
+        ActionMailer::Base.deliveries.clear
+      end
+
       after { ActionMailer::Base.deliveries.clear }
       it "sends out an email to user with valid inputs" do
         post :create, user: { email: "joe@example.com", password: "password", full_name: "Joe Smith"}
@@ -136,15 +136,36 @@ describe UsersController do
         message.body.should include("Joe Smith")
       end
 
-      it "does not send email with invalid inputs" do
-        post :create, user: { full_name: "Joe Smith"}
-        expect(ActionMailer::Base.deliveries).to be_empty
+    end
+
+    context "valid personal info and decline card" do
+
+      let(:charge) { double(:charge, successful?: false) }
+
+      before do
+        charge.stub(:error_message).and_return('Your charge was declined.')
+        StripeWrapper::Charge.stub(:create).and_return(charge)
+
+        post :create, user: Fabricate.attributes_for(:user), stripeToken: '1231241'
+      end
+
+      it "does not create a new user record" do
+        expect(User.count).to eq(0)
+      end
+
+      it "renders :new template" do
+        expect(response).to render_template :new
+      end
+
+      it "sets the flash error" do
+        expect(flash[:danger]).to eq("Your charge was declined.")
       end
     end
 
     context "with invalid user input" do
       before do
-        post :create, user: { email: " "}
+        post :create, user: { email: " " }
+        ActionMailer::Base.deliveries.clear
       end
 
       it "does not create @user in db on invalid input" do
@@ -154,8 +175,19 @@ describe UsersController do
       it "renders :new template on invalid input" do
         expect(response).to render_template :new
       end
+
       it "sets @user variable" do
         expect(assigns(:user)).to be_instance_of(User)
+      end
+
+      it "does not send email with invalid inputs" do
+        post :create, user: { full_name: "Joe Smith"}
+        expect(ActionMailer::Base.deliveries).to be_empty
+      end
+
+      it "does not charge the credit card" do
+        StripeWrapper::Charge.should_not_receive(:create)
+        post :create, user: { email: "kevin@example.com" }
       end
     end
   end

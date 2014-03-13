@@ -15,6 +15,10 @@ class Video < ActiveRecord::Base
     end
   end
 
+  def rating
+    reviews.average(:rating).round(1) if reviews.average(:rating)
+  end
+
   private
     def self.search_by_title(search_term)
       return [] if search_term.blank?

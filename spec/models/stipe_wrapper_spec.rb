@@ -2,9 +2,9 @@ require 'spec_helper'
 
 describe StripeWrapper do
   describe StripeWrapper::Charge do
-    before do
-      Stripe.api_key = ENV["STRIPE_SECRET_KEY"]
-    end
+    # before do
+    #   Stripe.api_key = ENV["STRIPE_SECRET_KEY"]
+    # end
 
     let(:token) do
       Stripe::Token.create(
@@ -24,7 +24,8 @@ describe StripeWrapper do
         it "charges the card successfully", :vcr do
           response = StripeWrapper::Charge.create(amount: 999, card: token)
           response.should be_successful
-
+          expect(response).to be_successful
+          expect(response.successful?).to eq(true)
         end
       end
     end

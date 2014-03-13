@@ -7,6 +7,7 @@ class VideosController < ApplicationController
 
   def show
     # binding.pry
+    @video = VideoDecorator.decorate(Video.find(params[:id]))
     @video = Video.find(params[:id])
     @reviews = @video.reviews
   end
