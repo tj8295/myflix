@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   has_many :following_relationships, class_name: "Relationship", foreign_key: :follower_id
   has_many :leading_relationships, class_name: "Relationship", foreign_key: :leader_id
   has_many :invitations, class_name: "Invitation", foreign_key: "inviter_id"
+  has_many :payments
 
   validates :email, presence: true, uniqueness: true
   validates :password, presence: true
