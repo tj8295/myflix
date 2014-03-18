@@ -14,8 +14,11 @@ Myflix::Application.routes.draw do
   get 'forgot_password_confirmation', to: 'forgot_passwords#confirm'
   get 'expired_token', to: 'pages#expired_token'
 
+
+
   namespace :admin do
     resources :videos, only: [:new, :create]
+    resources :payments, only: [:new, :index]
   end
 
   resources :payments, only: [:new, :create]
@@ -39,4 +42,7 @@ Myflix::Application.routes.draw do
       get :search, to: 'videos#search'
     end
   end
+
+  mount StripeEvent::Engine => '/stripe_events'
+
 end
