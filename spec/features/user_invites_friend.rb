@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 feature "User invites friend" do
-  scenario "User successfully invitets friend and invitation is accepted", { js: true, vcr: true } do
+  scenario "User successfully invites friend and invitation is accepted", { js: true, vcr: true } do
     # joe = User.create(email: "joe@example.com", password: "ok", full_name: "Thomas H", admin: false)
     joe = Fabricate(:user)
     sign_in(joe)
@@ -26,8 +26,9 @@ feature "User invites friend" do
   end
 
   def friend_accepts_invitation
+    sleep 0.1
     open_email("alice@example.com")
-
+    sleep 0.1
     current_email.click_link("Accept invitation")
     fill_in "Email Address", with: "john@example.com"
     fill_in "Password", with: 'password'
@@ -37,7 +38,8 @@ feature "User invites friend" do
     select('3 - March', :from => 'date_month')
     select('2015', :from => 'date_year')
     click_button "Sign up"
-    expect(page).to have_content("Payment accepted. User saved")
+    sleep 0.1
+    expect(page).to have_content("Thank you for registering with Myflix.")
   end
 
   def friend_signs_in

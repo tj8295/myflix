@@ -1,0 +1,136 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/customers
+    body:
+      encoding: US-ASCII
+      string: card=tok_103hFV2rBLgVVd2B8fXGZEwb&email=alice%40example.com&plan=base
+    headers:
+      Accept:
+      - '*/*; q=0.5, application/xml'
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Stripe/v1 RubyBindings/1.10.1
+      Authorization:
+      - Bearer sk_test_S7SfOyW1ciRq6DBVsEb7WPRW
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"1.10.1","lang":"ruby","lang_version":"2.0.0 p247 (2013-06-27)","platform":"x86_64-darwin13.0.2","publisher":"stripe","uname":"Darwin
+        w8-14179.wifi2008.unh.edu 13.1.0 Darwin Kernel Version 13.1.0: Thu Jan 16
+        19:40:37 PST 2014; root:xnu-2422.90.20~2/RELEASE_X86_64 x86_64"}'
+      Content-Length:
+      - '69'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Wed, 19 Mar 2014 21:13:23 GMT
+      Content-Type:
+      - application/json;charset=utf-8
+      Content-Length:
+      - '2105'
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - no-cache, no-store
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Max-Age:
+      - '300'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "object": "customer",
+          "created": 1395263603,
+          "id": "cus_3hFVRyy7dP9oQQ",
+          "livemode": false,
+          "description": null,
+          "email": "alice@example.com",
+          "delinquent": false,
+          "metadata": {},
+          "subscriptions": {
+            "object": "list",
+            "count": 1,
+            "url": "/v1/customers/cus_3hFVRyy7dP9oQQ/subscriptions",
+            "data": [
+              {
+                "id": "sub_3hFVmOldvCCIjr",
+                "plan": {
+                  "interval": "month",
+                  "name": "the base plan",
+                  "created": 1394920135,
+                  "amount": 999,
+                  "currency": "usd",
+                  "id": "base",
+                  "object": "plan",
+                  "livemode": false,
+                  "interval_count": 1,
+                  "trial_period_days": null,
+                  "metadata": {},
+                  "statement_description": "Myflix"
+                },
+                "object": "subscription",
+                "start": 1395263603,
+                "status": "active",
+                "customer": "cus_3hFVRyy7dP9oQQ",
+                "cancel_at_period_end": false,
+                "current_period_start": 1395263603,
+                "current_period_end": 1397942003,
+                "ended_at": null,
+                "trial_start": null,
+                "trial_end": null,
+                "canceled_at": null,
+                "quantity": 1,
+                "application_fee_percent": null,
+                "discount": null
+              }
+            ]
+          },
+          "discount": null,
+          "account_balance": 0,
+          "currency": "usd",
+          "cards": {
+            "object": "list",
+            "count": 1,
+            "url": "/v1/customers/cus_3hFVRyy7dP9oQQ/cards",
+            "data": [
+              {
+                "id": "card_103hFV2rBLgVVd2Bxc2DcVXK",
+                "object": "card",
+                "last4": "4242",
+                "type": "Visa",
+                "exp_month": 3,
+                "exp_year": 2015,
+                "fingerprint": "DtFcTOgjqEjUcaMY",
+                "customer": "cus_3hFVRyy7dP9oQQ",
+                "country": "US",
+                "name": null,
+                "address_line1": null,
+                "address_line2": null,
+                "address_city": null,
+                "address_state": null,
+                "address_zip": null,
+                "address_country": null,
+                "cvc_check": "pass",
+                "address_line1_check": null,
+                "address_zip_check": null
+              }
+            ]
+          },
+          "default_card": "card_103hFV2rBLgVVd2Bxc2DcVXK"
+        }
+    http_version: 
+  recorded_at: Wed, 19 Mar 2014 21:13:23 GMT
+recorded_with: VCR 2.8.0

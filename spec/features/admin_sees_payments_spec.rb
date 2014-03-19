@@ -21,6 +21,4 @@ feature "Admin sees payments" do
     expect(page).not_to have_content("Alice Doe")
     expect(page).to have_content("You do not have access to that area")
   end
-
-  scenario "user cannot see payments"
 end
