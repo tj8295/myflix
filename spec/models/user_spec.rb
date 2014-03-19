@@ -72,4 +72,12 @@ describe User do
       expect(User.find_inviter_by_token(invitation.token)).to eq(alice)
     end
   end
+
+  describe "#deactivate!" do
+    it "sets the active field to false" do
+      alice = Fabricate(:user, active: true)
+      alice.deactivate!
+      expect(alice).not_to be_active
+    end
+  end
 end

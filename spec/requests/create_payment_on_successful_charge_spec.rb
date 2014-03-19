@@ -60,7 +60,6 @@ describe "Crete payment on successful charge" do
   end
 
   it "creates a payment with the webook from stripe for charge succeeded", :vcr do
-
     post "/stripe_events", event_data
     expect(Payment.count).to eq(1)
   end
@@ -69,5 +68,17 @@ describe "Crete payment on successful charge" do
     alice = Fabricate(:user, customer_token: "cus_3gYEgs6f5qNfVo")
     post "/stripe_events", event_data
     expect(Payment.first.user).to eq(alice)
+  end
+
+  it "creates the payment with the amount", :vcr do
+    alice = Fabricate(:user, customer_token: "cus_3gYEgs6f5qNfVo")
+    post "/stripe_events", event_data
+    expect(Payment.first.amount).to eq(999)
+  end
+
+  it "creates the payment with the webhook", :vcr do
+    alice = Fabricate(:user, customer_token: "cus_3gYEgs6f5qNfVo")
+    post "/stripe_events", event_data
+    expect(Payment.first.reference_id).to eq("ch_103gYE2rBLgVVd2BVBN3az5K")
   end
 end

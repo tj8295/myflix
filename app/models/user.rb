@@ -41,6 +41,10 @@ class User < ActiveRecord::Base
     inviter_id = Invitation.find_by(token: token).inviter_id
     User.find(inviter_id)
   end
+
+  def deactivate!
+    update_column(:active, false)
+  end
 end
 
 

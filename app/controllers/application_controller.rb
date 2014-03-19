@@ -1,7 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-
   helper_method :current_user, :logged_in?, :redirect_from_view
 
   def current_user

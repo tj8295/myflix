@@ -6,10 +6,14 @@ class SessionsController < ApplicationController
   def create
     user = User.where(email: params[:email]).first
     if user && user.authenticate(params[:password])
-      session[:user_id] = user.id
-      flash[:success] = "You are signed in."
-      # TODO for some reason the following does not work with tests flash[:success]
-      redirect_to home_path#, success: "You are signed in."
+      if user.active?
+        session[:user_id] = user.id
+        flash[:success] = "You are signed in."
+        redirect_to home_path
+      else
+        flash[:danger] = "You account has been suspended, please contact customer service."
+        redirect_to sign_in_path
+      end
     else
       flash[:danger] = "There is something wrong with your username or password"
       redirect_to sign_in_path
