@@ -22,3 +22,4 @@ feature "Admin sees payments" do
     expect(page).to have_content("You do not have access to that area")
   end
 end
+
